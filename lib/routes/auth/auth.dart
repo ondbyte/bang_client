@@ -17,7 +17,7 @@ class _AuthWidgetState extends ConsumerState<AuthWidget> {
     final asyncSettings = ref.watch(settingsNotifierProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: const Text("Login"),
       ),
       body: asyncSettings.when(
         data: (settings) {
