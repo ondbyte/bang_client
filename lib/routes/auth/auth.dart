@@ -15,13 +15,14 @@ class _AuthWidgetState extends ConsumerState<AuthWidget> {
   @override
   Widget build(BuildContext context) {
     final asyncSettings = ref.watch(settingsNotifierProvider);
+    final authNotifier = ref.watch(authN);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
       ),
       body: asyncSettings.when(
         data: (settings) {
-          return;
+          
         },
         error: (err, st) => ErrorTextWidget(
           err: err,

@@ -55,7 +55,7 @@ packages:
       path: "."
       ref: "v0.0.9"
       resolved-ref: b014cf05f7e65b7bc841d16aeaa04679009d25b1
-      url: "git@github.com:ondbyte/bang_proto.git"
+      url: "file:///home/ondbyte/code/bang_proto"
     source: git
     version: "1.0.0"
   boolean_selector:

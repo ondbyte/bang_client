@@ -1,17 +1,14 @@
 import 'dart:async';
 
+import 'package:bang_client/app_base/tried_and_catched.dart';
 import 'package:bang_client/config.dart';
+import 'package:bang_client/routes/auth/states.dart';
 import 'package:bang_proto/auth_service.pbgrpc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:grpc/grpc.dart';
 
-part 'auth_provider.g.dart';
-
-enum AuthState { none, loading, success, err }
-
-@Riverpod(keepAlive: true)
-AuthServiceClient AuthServiceClientProvider(AuthServiceClientProviderRef ref) {
+final authServiceClientProvider = Provider<AuthServiceClient>((ref) {
   final config = ref.watch(configProvider);
   final channel = ClientChannel(
     config.AuthServiceHost,
@@ -21,4 +18,22 @@ AuthServiceClient AuthServiceClientProvider(AuthServiceClientProviderRef ref) {
     },
   );
   return AuthServiceClient(channel);
+});
+
+class AuthNotifier extends Notifier<AuthState> {
+  @override
+  AuthState build() {
+    return NoAuthState();
+  }
+
+  Future SendOtp(String phoneNumber) async {
+    final client = ref.watch(authServiceClientProvider);
+    final tnc =
+        await tryCatch(client.sendOtp(SendOtpReq(phoneNumber: phoneNumber)));
+    if (tnc.err != null) {
+      state = ErrorState(tnc.err);
+      return;
+    }
+    state = OtpSentState(PhoneNumber: phoneNumber, OtpToken: tnc.data);
+  }
 }
