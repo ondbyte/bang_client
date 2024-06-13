@@ -38,6 +38,11 @@ dependencies:
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
   
+  the_country_number_widgets:
+    git:
+      url: file:///home/ondbyte/code/the_country_number_widgets
+      ref: v0.9.4
+
   bang_proto:
     git:
       url: file:///home/ondbyte/code/bang_proto
@@ -45,6 +50,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
   shared_preferences: ^2.2.3
+  go_router: ^14.1.4
 
 dev_dependencies:
   flutter_test:

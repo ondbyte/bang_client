@@ -37,3 +37,6 @@ class AuthNotifier extends Notifier<AuthState> {
     state = OtpSentState(PhoneNumber: phoneNumber, OtpToken: tnc.data);
   }
 }
+
+final authNotifierProvider =
+    NotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);
