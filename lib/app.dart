@@ -38,8 +38,11 @@ class _RoutedAppState extends ConsumerState<RoutedApp> {
   // bool referes to routes with auth enabled or disabled
   final _routes = <String, bool>{};
   final _goRoutes = <GoRoute>[];
+
   @override
-  void initState() {
+  Widget build(BuildContext context) {
+    final settings = ref.watch(settingsNotifierProvider);
+
     for (var r in widget.routes) {
       _routes[r.location] = r.authRequired;
       _goRoutes.add(
@@ -49,12 +52,7 @@ class _RoutedAppState extends ConsumerState<RoutedApp> {
         ),
       );
     }
-    super.initState();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final settings = ref.watch(settingsNotifierProvider);
     return settings.when(
       data: (settings) {
         final router = GoRouter(
@@ -95,8 +93,8 @@ class _AppState extends State<App> {
           authRequired: false,
         ),
         AppRoute(
-          location: "/home",
-          builder: (context) => HomeScreen(),
+          location: "/",
+          builder: (context) => const HomeScreen(),
           authRequired: true,
         )
       ],

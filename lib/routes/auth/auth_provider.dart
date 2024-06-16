@@ -23,18 +23,18 @@ final authServiceClientProvider = Provider<AuthServiceClient>((ref) {
 class AuthNotifier extends Notifier<AuthState> {
   @override
   AuthState build() {
-    return NoAuthState();
+    return NoneState();
   }
 
   Future SendOtp(String phoneNumber) async {
     final client = ref.watch(authServiceClientProvider);
-    final tnc =
-        await tryCatch(client.sendOtp(SendOtpReq(phoneNumber: phoneNumber)));
-    if (tnc.err != null) {
-      state = ErrorState(tnc.err);
+    try {
+      client.sendOtp(SendOtpReq(phoneNumber: phoneNumber));
+    } catch (err) {
+      print(err);
+      state = ErrorState(err);
       return;
     }
-    state = OtpSentState(PhoneNumber: phoneNumber, OtpToken: tnc.data);
   }
 }
 

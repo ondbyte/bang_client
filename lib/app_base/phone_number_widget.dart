@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_country_number_widgets/the_country_number_widgets.dart';
+import 'package:flutter/services.dart';
 
 // returns the validated number
 class PhoneNumberInputWidget extends StatefulWidget {
@@ -11,14 +11,57 @@ class PhoneNumberInputWidget extends StatefulWidget {
 }
 
 class _PhoneNumberInputWidgetState extends State<PhoneNumberInputWidget> {
+  final _phoneNumberController = TextEditingController();
+
+  @override
+  void dispose() {
+    _phoneNumberController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TheCountryNumberInput(
-      TheNumber(dialCode: "+91"),
-      onChanged: (p0) {
-        widget.onChanged(p0.internationalNumber);
-      },
-      showDialCode: true,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        controller: _phoneNumberController,
+        keyboardType: TextInputType.phone,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        onChanged: widget.onChanged,
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 32,
+        ),
+        decoration: const InputDecoration(
+          labelText: 'Phone Number',
+          hintText: 'Enter your phone number',
+          labelStyle: TextStyle(color: Colors.black),
+          helperText:
+              "include your country code aswell, ex: '91' if from India",
+          helperStyle: TextStyle(color: Colors.black),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(2)),
+            gapPadding: 8,
+            borderSide: BorderSide(
+              style: BorderStyle.solid,
+              color: Colors.black,
+              width: 4,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(2)),
+            gapPadding: 8,
+            borderSide: BorderSide(
+              style: BorderStyle.solid,
+              color: Colors.black,
+              width: 3,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

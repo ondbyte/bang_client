@@ -16,8 +16,8 @@ class ErrorState extends AuthState {
   ErrorState(this.err) : super();
 }
 
-class NoAuthState extends AuthState {
-  NoAuthState() : super();
+class NoneState extends AuthState {
+  NoneState() : super();
 }
 
 class PhoneNumberEnteredState extends AuthState {
