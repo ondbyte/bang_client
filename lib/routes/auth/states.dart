@@ -3,12 +3,15 @@ class AuthState {
   final String OtpToken;
   final String AccessToken;
   final String SessionToken;
+  final bool loading;
 
-  AuthState(
-      {this.PhoneNumber = "",
-      this.OtpToken = "",
-      this.AccessToken = "",
-      this.SessionToken = ""});
+  AuthState({
+    this.PhoneNumber = "",
+    this.OtpToken = "",
+    this.AccessToken = "",
+    this.SessionToken = "",
+    this.loading = false,
+  });
 }
 
 class ErrorState extends AuthState {
@@ -18,6 +21,10 @@ class ErrorState extends AuthState {
 
 class NoneState extends AuthState {
   NoneState() : super();
+}
+
+class LoadingState extends AuthState {
+  LoadingState() : super(loading: true);
 }
 
 class PhoneNumberEnteredState extends AuthState {

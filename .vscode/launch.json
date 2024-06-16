@@ -8,6 +8,7 @@
             "name": "bang_client",
             "request": "launch",
             "type": "dart",
+            "deviceId": "HA1G4V2E"
         },
         {
             "name": "bang_client (profile mode)",
