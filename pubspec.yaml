@@ -40,12 +40,12 @@ dependencies:
   
   the_country_number_widgets:
     git:
-      url: file:///home/ondbyte/code/the_country_number_widgets
+      url: file://E:\code\the_country_number_widgets
       ref: v0.9.4
 
   bang_proto:
     git:
-      url: file:///home/ondbyte/code/bang_proto
+      url: file:///E:\code\bang_proto
       ref: v0.0.9
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0

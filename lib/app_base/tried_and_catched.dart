@@ -1,5 +1,8 @@
 // runs a future which might throw, caches either result or exception throws
-Future<TriedAndCatched<T>> tryCatch<T>(Future<T> f) async {
+
+Future<TriedAndCatched<T>> tryCatch<T>(
+  Future<T> f,
+) async {
   try {
     final data = await f;
     return TriedAndCatched(data, null, null);

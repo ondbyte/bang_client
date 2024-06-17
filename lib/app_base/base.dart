@@ -1,7 +1,11 @@
+import 'package:bang_client/app_base/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc.dart';
 
 class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({super.key});
+  const LoadingWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +27,11 @@ class UnknownValueWidget extends StatelessWidget {
 }
 
 class ErrorTextWidget extends StatefulWidget {
-  final Object err;
-  final StackTrace st;
-  const ErrorTextWidget({super.key, required this.err, required this.st});
+  final Object? err;
+  final StackTrace? st;
+  final Function()? retry;
+  const ErrorTextWidget(
+      {super.key, required this.err, required this.st, this.retry});
 
   @override
   State<ErrorTextWidget> createState() => _ErrorTextWidgetState();
@@ -42,6 +48,30 @@ class _ErrorTextWidgetState extends State<ErrorTextWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("error encountered");
+    final err = widget.err;
+    var text = "";
+    if (err is GrpcError) {
+      switch (err.codeName) {
+        case "UNAVAILABLE":
+          text = "server unavailable";
+        default:
+      }
+    }
+    if (text == "") {
+      text = "unknown error";
+    }
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(text),
+          if (widget.retry != null)
+            PrimaryButton(
+              onPressed: widget.retry!,
+              text: "Retry",
+            )
+        ],
+      ),
+    );
   }
 }

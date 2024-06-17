@@ -55,7 +55,7 @@ packages:
       path: "."
       ref: "v0.0.9"
       resolved-ref: b014cf05f7e65b7bc841d16aeaa04679009d25b1
-      url: "file:///home/ondbyte/code/bang_proto"
+      url: "file:///E:\\code\\bang_proto"
     source: git
     version: "1.0.0"
   boolean_selector:
@@ -836,7 +836,7 @@ packages:
       path: "."
       ref: "v0.9.4"
       resolved-ref: "7a62e452d8532485627dab4ec3b6e5503344c6bd"
-      url: "file:///home/ondbyte/code/the_country_number_widgets"
+      url: "file://E:\\code\\the_country_number_widgets"
     source: git
     version: "0.9.3"
   timing:

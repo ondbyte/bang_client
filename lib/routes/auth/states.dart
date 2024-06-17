@@ -1,52 +1,40 @@
-class AuthState {
-  final String PhoneNumber;
-  final String OtpToken;
-  final String AccessToken;
-  final String SessionToken;
-  final bool loading;
+import 'package:bang_client/app_base/base_notifier.dart';
 
-  AuthState({
-    this.PhoneNumber = "",
-    this.OtpToken = "",
-    this.AccessToken = "",
-    this.SessionToken = "",
-    this.loading = false,
-  });
+class AuthState extends BaseState {
+  AuthState();
 }
 
 class ErrorState extends AuthState {
   final Object? err;
-  ErrorState(this.err) : super();
+  final StackTrace? st;
+  ErrorState(this.err, this.st) : super();
 }
 
 class NoneState extends AuthState {
   NoneState() : super();
 }
 
-class LoadingState extends AuthState {
-  LoadingState() : super(loading: true);
-}
-
 class PhoneNumberEnteredState extends AuthState {
-  PhoneNumberEnteredState({required PhoneNumber})
-      : super(PhoneNumber: PhoneNumber);
+  final String PhoneNumber;
+  PhoneNumberEnteredState({required this.PhoneNumber}) : super();
 }
 
-class OtpSentState extends AuthState {
-  OtpSentState({required PhoneNumber, required OtpToken})
-      : super(PhoneNumber: PhoneNumber, OtpToken: OtpToken);
+class OtpSentState extends PhoneNumberEnteredState {
+  final String OtpToken;
+  OtpSentState({required super.PhoneNumber, required this.OtpToken}) : super();
 }
 
-class OtpVerifiedHasAccessTokenState extends AuthState {
-  OtpVerifiedHasAccessTokenState({required PhoneNumber, required AccessToken})
-      : super(PhoneNumber: PhoneNumber, AccessToken: AccessToken);
+class OtpVerifiedHasAccessTokenState extends PhoneNumberEnteredState {
+  final String AccessToken;
+  OtpVerifiedHasAccessTokenState(
+      {required super.PhoneNumber, required this.AccessToken})
+      : super();
 }
 
-class SessionTokenState extends AuthState {
+class SessionTokenState extends OtpVerifiedHasAccessTokenState {
   SessionTokenState(
-      {required PhoneNumber, required AccessToken, required SessionToken})
-      : super(
-            PhoneNumber: PhoneNumber,
-            AccessToken: AccessToken,
-            SessionToken: SessionToken);
+      {required super.PhoneNumber,
+      required super.AccessToken,
+      required SessionToken})
+      : super();
 }

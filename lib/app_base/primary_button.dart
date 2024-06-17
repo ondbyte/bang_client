@@ -1,10 +1,16 @@
+import 'package:bang_client/app_base/base.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final bool loading;
 
-  PrimaryButton({required this.onPressed, required this.text});
+  PrimaryButton({
+    required this.onPressed,
+    required this.text,
+    this.loading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +30,19 @@ class PrimaryButton extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Text(
-          text,
-          style: TextStyle(color: Colors.white),
+        padding: const EdgeInsets.all(16),
+        child: Builder(
+          builder: (context) {
+            if (loading) {
+              return const LoadingWidget();
+            }
+            return Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            );
+          },
         ),
       ),
     );
