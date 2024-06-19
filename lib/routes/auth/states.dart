@@ -1,4 +1,5 @@
 import 'package:bang_client/app_base/base_notifier.dart';
+import 'package:bang_proto/google/protobuf/timestamp.pb.dart';
 
 class AuthState extends BaseState {
   AuthState();
@@ -10,10 +11,6 @@ class ErrorState extends AuthState {
   ErrorState(this.err, this.st) : super();
 }
 
-class NoneState extends AuthState {
-  NoneState() : super();
-}
-
 class PhoneNumberEnteredState extends AuthState {
   final String PhoneNumber;
   PhoneNumberEnteredState({required this.PhoneNumber}) : super();
@@ -21,7 +18,12 @@ class PhoneNumberEnteredState extends AuthState {
 
 class OtpSentState extends PhoneNumberEnteredState {
   final String OtpToken;
-  OtpSentState({required super.PhoneNumber, required this.OtpToken}) : super();
+  final Timestamp validTill;
+  OtpSentState({
+    required super.PhoneNumber,
+    required this.OtpToken,
+    required this.validTill,
+  }) : super();
 }
 
 class OtpVerifiedHasAccessTokenState extends PhoneNumberEnteredState {

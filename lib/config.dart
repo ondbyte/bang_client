@@ -28,7 +28,7 @@ final configProvider = Provider<Config>(
 class LocalConfig extends Config {
   LocalConfig()
       : super(
-          AuthServiceHost: "localhost",
+          AuthServiceHost: "192.168.0.103",
           AuthServicePort: 8765,
           Debug: true,
         );

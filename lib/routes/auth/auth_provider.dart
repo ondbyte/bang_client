@@ -11,6 +11,7 @@ final authServiceClientProvider = Provider<AuthServiceClient>((ref) {
   final channel = ClientChannel(
     config.AuthServiceHost,
     port: config.AuthServicePort,
+    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     channelShutdownHandler: () {
       print("auth service channel was shut down");
     },

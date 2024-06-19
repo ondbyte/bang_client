@@ -1,12 +1,10 @@
 import 'package:bang_client/app_base/base.dart';
-import 'package:bang_client/routes/auth/auth_provider.dart';
-import 'package:bang_client/routes/auth/auth_screen.dart';
-import 'package:bang_client/routes/auth/states.dart';
+import 'package:bang_client/app_base/theme.dart';
+import 'package:bang_client/routes/auth/auth_route.dart';
 import 'package:bang_client/routes/home/home_scree.dart';
-import 'package:bang_client/storage/settings.dart';
 import 'package:bang_client/storage/settings_provider.dart';
+import 'package:bang_client/test_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,10 +22,14 @@ class AppRoute {
 class RoutedApp extends ConsumerStatefulWidget {
   final List<AppRoute> routes;
   final String authLocation;
+  final String initLocation;
+  final WidgetBuilder? testBuilder;
   const RoutedApp({
     super.key,
     required this.routes,
     required this.authLocation,
+    required this.initLocation,
+    this.testBuilder,
   });
 
   @override
@@ -56,7 +58,7 @@ class _RoutedAppState extends ConsumerState<RoutedApp> {
     return settings.when(
       data: (settings) {
         final router = GoRouter(
-          initialLocation: "/",
+          initialLocation: widget.initLocation,
           redirect: (context, state) {
             if ((_routes[state.fullPath] ?? false) &&
                 settings.sessionToken != "") {
@@ -66,7 +68,20 @@ class _RoutedAppState extends ConsumerState<RoutedApp> {
           },
           routes: _goRoutes,
         );
-        return MaterialApp.router(routerConfig: router);
+        return MaterialApp.router(
+          routerConfig: router,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+          themeMode: settings.theme,
+          builder: (context, child) {
+            if (widget.testBuilder != null) {
+              return widget.testBuilder!.call(context);
+            }
+            return SizedBox(
+              child: child,
+            );
+          },
+        );
       },
       error: (err, st) => ErrorTextWidget(err: err, st: st),
       loading: () => const LoadingWidget(),
@@ -85,7 +100,9 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return RoutedApp(
+      initLocation: "/",
       authLocation: "/auth",
+      //testBuilder: (context) => const TestWidget(),
       routes: [
         AppRoute(
           location: "/auth",

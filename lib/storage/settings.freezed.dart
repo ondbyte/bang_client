@@ -23,6 +23,7 @@ mixin _$Settings {
   String? get accessToken => throw _privateConstructorUsedError;
   String? get sessionToken => throw _privateConstructorUsedError;
   String? get userName => throw _privateConstructorUsedError;
+  ThemeMode? get theme => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,11 @@ abstract class $SettingsCopyWith<$Res> {
   factory $SettingsCopyWith(Settings value, $Res Function(Settings) then) =
       _$SettingsCopyWithImpl<$Res, Settings>;
   @useResult
-  $Res call({String? accessToken, String? sessionToken, String? userName});
+  $Res call(
+      {String? accessToken,
+      String? sessionToken,
+      String? userName,
+      ThemeMode? theme});
 }
 
 /// @nodoc
@@ -54,6 +59,7 @@ class _$SettingsCopyWithImpl<$Res, $Val extends Settings>
     Object? accessToken = freezed,
     Object? sessionToken = freezed,
     Object? userName = freezed,
+    Object? theme = freezed,
   }) {
     return _then(_value.copyWith(
       accessToken: freezed == accessToken
@@ -68,6 +74,10 @@ class _$SettingsCopyWithImpl<$Res, $Val extends Settings>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String?,
+      theme: freezed == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeMode?,
     ) as $Val);
   }
 }
@@ -80,7 +90,11 @@ abstract class _$$SettingsImplCopyWith<$Res>
       __$$SettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? accessToken, String? sessionToken, String? userName});
+  $Res call(
+      {String? accessToken,
+      String? sessionToken,
+      String? userName,
+      ThemeMode? theme});
 }
 
 /// @nodoc
@@ -97,6 +111,7 @@ class __$$SettingsImplCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? sessionToken = freezed,
     Object? userName = freezed,
+    Object? theme = freezed,
   }) {
     return _then(_$SettingsImpl(
       accessToken: freezed == accessToken
@@ -111,6 +126,10 @@ class __$$SettingsImplCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String?,
+      theme: freezed == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeMode?,
     ));
   }
 }
@@ -121,7 +140,8 @@ class _$SettingsImpl implements _Settings {
   _$SettingsImpl(
       {required this.accessToken,
       required this.sessionToken,
-      required this.userName});
+      required this.userName,
+      required this.theme});
 
   factory _$SettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$SettingsImplFromJson(json);
@@ -132,10 +152,12 @@ class _$SettingsImpl implements _Settings {
   final String? sessionToken;
   @override
   final String? userName;
+  @override
+  final ThemeMode? theme;
 
   @override
   String toString() {
-    return 'Settings(accessToken: $accessToken, sessionToken: $sessionToken, userName: $userName)';
+    return 'Settings(accessToken: $accessToken, sessionToken: $sessionToken, userName: $userName, theme: $theme)';
   }
 
   @override
@@ -148,13 +170,14 @@ class _$SettingsImpl implements _Settings {
             (identical(other.sessionToken, sessionToken) ||
                 other.sessionToken == sessionToken) &&
             (identical(other.userName, userName) ||
-                other.userName == userName));
+                other.userName == userName) &&
+            (identical(other.theme, theme) || other.theme == theme));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, accessToken, sessionToken, userName);
+      Object.hash(runtimeType, accessToken, sessionToken, userName, theme);
 
   @JsonKey(ignore: true)
   @override
@@ -174,7 +197,8 @@ abstract class _Settings implements Settings {
   factory _Settings(
       {required final String? accessToken,
       required final String? sessionToken,
-      required final String? userName}) = _$SettingsImpl;
+      required final String? userName,
+      required final ThemeMode? theme}) = _$SettingsImpl;
 
   factory _Settings.fromJson(Map<String, dynamic> json) =
       _$SettingsImpl.fromJson;
@@ -185,6 +209,8 @@ abstract class _Settings implements Settings {
   String? get sessionToken;
   @override
   String? get userName;
+  @override
+  ThemeMode? get theme;
   @override
   @JsonKey(ignore: true)
   _$$SettingsImplCopyWith<_$SettingsImpl> get copyWith =>

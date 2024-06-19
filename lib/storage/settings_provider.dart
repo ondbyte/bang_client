@@ -18,7 +18,7 @@ class SettingsNotifier extends AsyncNotifier<Settings> {
     final prefs = await SharedPreferences.getInstance();
     final settingsStr = prefs.getString(settingsKey);
     if (settingsStr == null) {
-      return Settings(accessToken: null, sessionToken: null, userName: null);
+      return Settings(accessToken: null, sessionToken: null, userName: null,theme: null);
     }
     final m = jsonDecode(settingsStr);
     final data = AsyncData(Settings.fromJson(m));

@@ -1,50 +1,45 @@
 import 'package:bang_client/app_base/base.dart';
+import 'package:bang_client/app_base/base_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
-  final bool loading;
 
-  PrimaryButton({
+  const PrimaryButton({
+    super.key,
     required this.onPressed,
     required this.text,
-    this.loading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(WidgetState.pressed)) {
-              return Colors.grey.shade800;
-            }
-            return Colors.black;
-          },
+    return Consumer(builder: (context, ref, _) {
+      var loading = ref.watch(loadingProvider);
+      return TextButton(
+        onPressed: loading ? null : onPressed,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Builder(
+            builder: (context) {
+              if (loading) {
+                return const CircularProgressIndicator(
+                  color: Colors.white,
+                );
+              }
+              return Text(
+                text,
+                style: Theme.of(context)
+                    .textButtonTheme
+                    .style
+                    ?.textStyle
+                    ?.resolve(Set()),
+              );
+            },
+          ),
         ),
-        shape: const WidgetStatePropertyAll(
-          RoundedRectangleBorder(),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Builder(
-          builder: (context) {
-            if (loading) {
-              return const LoadingWidget();
-            }
-            return Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            );
-          },
-        ),
-      ),
-    );
+      );
+    });
   }
 }

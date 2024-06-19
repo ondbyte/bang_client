@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class BaseState {
-  bool loading;
+final loadingProvider = StateProvider((ref) => false);
 
-  BaseState({this.loading = false});
-}
+abstract class BaseState {}
 
 class NoState extends BaseState {}
 
@@ -13,9 +13,7 @@ abstract class BaseNotifier extends Notifier<BaseState> {
     state = NoState();
   }
 
-  // sets the state as loading
-  void loading() {
-    state.loading = true;
-    state = state;
+  void loading(bool b) {
+    ref.read(loadingProvider.notifier).state = b;
   }
 }
