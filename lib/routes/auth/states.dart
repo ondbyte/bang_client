@@ -5,12 +5,6 @@ class AuthState extends BaseState {
   AuthState();
 }
 
-class ErrorState extends AuthState {
-  final Object? err;
-  final StackTrace? st;
-  ErrorState(this.err, this.st) : super();
-}
-
 class PhoneNumberEnteredState extends AuthState {
   final String PhoneNumber;
   PhoneNumberEnteredState({required this.PhoneNumber}) : super();
@@ -18,7 +12,7 @@ class PhoneNumberEnteredState extends AuthState {
 
 class OtpSentState extends PhoneNumberEnteredState {
   final String OtpToken;
-  final Timestamp validTill;
+  final DateTime validTill;
   OtpSentState({
     required super.PhoneNumber,
     required this.OtpToken,
@@ -26,17 +20,12 @@ class OtpSentState extends PhoneNumberEnteredState {
   }) : super();
 }
 
-class OtpVerifiedHasAccessTokenState extends PhoneNumberEnteredState {
+class OtpVerifiedHasAccessTokenState extends AuthState {
   final String AccessToken;
-  OtpVerifiedHasAccessTokenState(
-      {required super.PhoneNumber, required this.AccessToken})
-      : super();
+  OtpVerifiedHasAccessTokenState({required this.AccessToken}) : super();
 }
 
 class SessionTokenState extends OtpVerifiedHasAccessTokenState {
-  SessionTokenState(
-      {required super.PhoneNumber,
-      required super.AccessToken,
-      required SessionToken})
+  SessionTokenState({required super.AccessToken, required SessionToken})
       : super();
 }

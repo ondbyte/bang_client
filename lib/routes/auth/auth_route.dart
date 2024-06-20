@@ -1,9 +1,11 @@
 import 'package:bang_client/app_base/base.dart';
 import 'package:bang_client/app_base/base_notifier.dart';
 import 'package:bang_client/app_base/bottom_info.dart';
+import 'package:bang_client/app_base/err_screen.dart';
 import 'package:bang_client/app_base/phone_number_widget.dart';
 import 'package:bang_client/app_base/primary_button.dart';
 import 'package:bang_client/routes/auth/auth_provider.dart';
+import 'package:bang_client/routes/auth/err_state.dart';
 import 'package:bang_client/routes/auth/otp_enter_screen.dart';
 import 'package:bang_client/routes/auth/phone_enter_screen.dart';
 import 'package:bang_client/routes/auth/states.dart';
@@ -38,10 +40,28 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             );
           case OtpSentState oes:
             return OtpEnterScreen(
-              onVerify: (otp) {},
+              onVerify: (otp) {
+                notifier.verifyOtp(otp, oes.OtpToken);
+              },
               phoneNumber: oes.PhoneNumber,
+              resendEnableAt: oes.validTill,
+              onResendOtp: () {
+                notifier.SendOtp(oes.PhoneNumber);
+              },
               onChangePhoneNumber: () {
                 notifier.ResetState();
+              },
+            );
+          case ErrorState errState:
+            return ErrScreen(
+              errState: errState,
+              buttons: (context) {
+                return PrimaryButton(
+                  onPressed: () {
+                    notifier.ResetState();
+                  },
+                  text: "retry",
+                );
               },
             );
           default:

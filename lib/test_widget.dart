@@ -1,6 +1,7 @@
 import 'package:bang_client/app_base/primary_button.dart';
 import 'package:bang_client/app_base/theme.dart';
 import 'package:bang_client/routes/auth/states.dart';
+import 'package:bang_proto/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +17,7 @@ class TestWidget extends StatefulWidget {
 class _TestWidgetState extends State<TestWidget> {
   @override
   Widget build(BuildContext context) {
-    final state = OtpSentState(OtpToken: "yadu", PhoneNumber: "+919964687717");
+    final state = OtpSentState(OtpToken: "yadu", PhoneNumber: "+919964687717",validTill: Timestamp());
     return Theme(
       data: AppThemes.lightTheme,
       child: Builder(

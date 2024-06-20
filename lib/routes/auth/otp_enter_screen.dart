@@ -1,23 +1,37 @@
 import 'package:bang_client/app_base/bottom_info.dart';
 import 'package:bang_client/app_base/primary_button.dart';
+import 'package:bang_client/app_base/timer_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpEnterScreen extends StatefulWidget {
-  final Function(String) onVerify;
-  final Function() onChangePhoneNumber;
+  final Function(String otp) onVerify;
+  final Function() onChangePhoneNumber, onResendOtp;
   final String phoneNumber;
-  const OtpEnterScreen(
-      {super.key,
-      required this.onVerify,
-      required this.phoneNumber,
-      required this.onChangePhoneNumber});
+  final DateTime resendEnableAt;
+  const OtpEnterScreen({
+    super.key,
+    required this.onVerify,
+    required this.phoneNumber,
+    required this.onChangePhoneNumber,
+    required this.resendEnableAt,
+    required this.onResendOtp,
+  });
 
   @override
   State<OtpEnterScreen> createState() => _OtEnterScreenState();
 }
 
 class _OtEnterScreenState extends State<OtpEnterScreen> {
+  late final Duration resendDuration;
+  var resendEnabled = false;
+  @override
+  void initState() {
+    resendDuration = widget.resendEnableAt.difference(DateTime.now());
+    super.initState();
+  }
+
   String _otp = "";
   @override
   Widget build(BuildContext context) {
@@ -41,7 +55,7 @@ class _OtEnterScreenState extends State<OtpEnterScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Flexible(
-              flex: 20,
+              flex: 10,
               fit: FlexFit.tight,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +101,7 @@ class _OtEnterScreenState extends State<OtpEnterScreen> {
                 defaultPinTheme: PinTheme(
                   height: 96,
                   width: 64,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 64,
                     color: Colors.white,
                   ),
@@ -107,7 +121,37 @@ class _OtEnterScreenState extends State<OtpEnterScreen> {
               ),
             ),
             const Flexible(
-              flex: 80,
+              flex: 2,
+              fit: FlexFit.tight,
+              child: SizedBox(),
+            ),
+            if (resendEnabled)
+              GestureDetector(
+                onTap: widget.onResendOtp,
+                child: const Text(
+                  "resend otp",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            if (!resendEnabled)
+              TimerText(
+                totalDuration: resendDuration,
+                tickDuration: const Duration(milliseconds: 1),
+                format: DateFormat.ms(),
+                tick: Tick.down,
+                onDone: () {
+                  setState(() {
+                    resendEnabled = true;
+                  });
+                },
+                builder: (context, timeStr) {
+                  return Text("resend otp in $timeStr");
+                },
+              ),
+            const Flexible(
+              flex: 60,
               fit: FlexFit.tight,
               child: SizedBox(),
             ),

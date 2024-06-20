@@ -1,6 +1,8 @@
 import 'package:bang_client/app_base/base.dart';
+import 'package:bang_client/app_base/err_screen.dart';
 import 'package:bang_client/app_base/theme.dart';
 import 'package:bang_client/routes/auth/auth_route.dart';
+import 'package:bang_client/routes/auth/otp_enter_screen.dart';
 import 'package:bang_client/routes/home/home_scree.dart';
 import 'package:bang_client/storage/settings_provider.dart';
 import 'package:bang_client/test_widget.dart';
@@ -102,7 +104,9 @@ class _AppState extends State<App> {
     return RoutedApp(
       initLocation: "/",
       authLocation: "/auth",
-      //testBuilder: (context) => const TestWidget(),
+      /* testBuilder: (context) => ErrScreen(
+        message: "something has happened",
+      ), */
       routes: [
         AppRoute(
           location: "/auth",
